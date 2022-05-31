@@ -1,11 +1,72 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String amount = '';
+
+  @override
+  void initState() {
+    Intl.defaultLocale = 'EN_US';
+    super.initState();
+  }
+
+  void handleDigitTap({required int tapDigit}) {
+    if (tapDigit == 11) {
+      if (amount.isEmpty) return;
+
+      setState(() {
+        amount = amount.substring(0, amount.length - 1);
+      });
+    } else if (tapDigit == 10) {
+      if (amount.contains('.') || amount.length >= 5) return;
+
+      setState(() {
+        amount += '.';
+      });
+    } else {
+      if (amount.contains('.') && amount.length >= 6) {
+        return;
+      } else if (!amount.contains('.') && amount.length >= 5) {
+        return;
+      }
+
+      setState(() {
+        amount += tapDigit.toString();
+      });
+    }
+  }
+  //  void handleDigitTap({required int digit}) {
+  //   if (digit == 11) {
+  //     if (amount.isEmpty) return;
+
+  //     amount = amount.substring(0, amount.length - 1);
+  //   } else if (digit == 10) {
+  //     if (amount.contains('.') || amount.length >= 5) return;
+
+  //     amount += '.';
+  //   } else {
+  //     if (amount.contains('.') && amount.length >= 6) {
+  //       return;
+  //     } else if (!amount.contains('.') && amount.length >= 5) {
+  //       return;
+  //     }
+
+  //     amount += digit.toString();
+  //   }
+
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +237,9 @@ class MyApp extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 20, left: 0),
                     child: Text(
-                      '2,530',
+                      amount.isNotEmpty
+                          ? NumberFormat().format(double.parse(amount))
+                          : '',
                       style: TextStyle(
                         fontSize: 55,
                         fontWeight: FontWeight.bold,
@@ -239,23 +302,21 @@ class MyApp extends StatelessWidget {
               height: 15,
             ),
             Container(
-              height: 50,
               width: double.infinity,
-              margin: EdgeInsets.only(top: 30, left: 55, right: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '1',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 1,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '2',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 2,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '3',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 3,
+                    onTap: handleDigitTap,
                   ),
                 ],
               ),
@@ -264,23 +325,21 @@ class MyApp extends StatelessWidget {
               height: 5,
             ),
             Container(
-              height: 50,
               width: double.infinity,
-              margin: EdgeInsets.only(top: 30, left: 55, right: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '4',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 4,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '5',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 5,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '6',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 6,
+                    onTap: handleDigitTap,
                   ),
                 ],
               ),
@@ -289,23 +348,21 @@ class MyApp extends StatelessWidget {
               height: 5,
             ),
             Container(
-              height: 50,
               width: double.infinity,
-              margin: EdgeInsets.only(top: 30, left: 55, right: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '7',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 7,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '8',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 8,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '9',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 9,
+                    onTap: handleDigitTap,
                   ),
                 ],
               ),
@@ -314,29 +371,59 @@ class MyApp extends StatelessWidget {
               height: 5,
             ),
             Container(
-              height: 50,
               width: double.infinity,
-              margin: EdgeInsets.only(top: 30, left: 55, right: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '*',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Numpad(
+                    digit: 10,
+                    onTap: handleDigitTap,
                   ),
-                  Text(
-                    '0',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Numpad(
+                    digit: 0,
+                    onTap: handleDigitTap,
                   ),
-                  Icon(BootstrapIcons.backspace_fill)
+                  Numpad(
+                    digit: 11,
+                    onTap: handleDigitTap,
+                  )
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Numpad extends StatelessWidget {
+  final int digit;
+  final void Function({required int tapDigit}) onTap;
+  Numpad({required this.digit, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget shownDigitWidget = Text(
+      (digit == 10) ? '.' : digit.toString(),
+      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+    );
+
+    if (digit == 11) {
+      shownDigitWidget = Icon(BootstrapIcons.backspace);
+    }
+
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.tight,
+      child: InkWell(
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            child: shownDigitWidget,
+          ),
+        ),
+        onTap: () => onTap(tapDigit: digit),
       ),
     );
   }

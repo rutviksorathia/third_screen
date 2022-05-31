@@ -37,6 +37,7 @@ dependencies:
   flutter_bootstrap: ^2.0.0
   bootstrap_icons: ^1.8.1
   figma_squircle: ^0.5.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
